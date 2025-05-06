@@ -17,14 +17,10 @@ cost-prediction/
 │   └── construction\_data.csv     \# Sample or generated construction dataset
 │
 ├── model/
-│   └── model.py                  \# Contains model definition, training, and evaluation logic
-│
-├── app/
-│   └── predict.py                \# Streamlit application for user interaction and predictions
-│
-├── utils/
-│   └── dataloader.py             \# Utilities for data loading, generation, and preprocessing
-│
+│   └── model.py                   \# Contains model definition, training, and evaluation logic
+|               
+├── predict.py                    \# Streamlit application for user interaction and predictions
+├── dataloader.py                 \# Utilities for data loading, generation, and preprocessing
 ├── main.py                       \# Main script to orchestrate model training and saving
 ├── requirements.txt              \# List of Python dependencies for reproducibility
 ├── README.md                     \# This file: Project overview and instructions
