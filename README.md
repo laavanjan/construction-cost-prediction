@@ -129,7 +129,6 @@ This project leverages the following technologies:
   * **Pandas**: For data manipulation and analysis.
   * **NumPy**: For numerical operations.
   * **Scikit-learn**: For machine learning algorithms (Random Forest) and preprocessing tools.
-  * **XGBoost**: For an advanced gradient boosting regression model.
   * **Streamlit**: For creating the interactive web application.
   * **Joblib**: For saving and loading trained machine learning models.
 
