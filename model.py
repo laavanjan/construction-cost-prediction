@@ -5,7 +5,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from dataloader import load_data, preprocess_data
 
-def train_model(data_path, model_path='cost_model.pkl'):
+
+def train_model(data_path, model_path="cost_model.pkl"):
     # Load and preprocess data
     data = load_data(data_path)
     X_train, X_test, y_train, y_test, preprocessor = preprocess_data(data)
@@ -15,16 +16,12 @@ def train_model(data_path, model_path='cost_model.pkl'):
 
     # Build pipeline (preprocessing + model)
     from sklearn.pipeline import Pipeline
-    pipeline = Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('regressor', rf_model)
-    ])
+
+    pipeline = Pipeline(steps=[("preprocessor", preprocessor), ("regressor", rf_model)])
 
     # Train the model
     print("Training model...")
-    pipeline.fit(X_train, y_train)
-
-    # Predict and evaluate
+    pipeline.fit(X_train, y_train)  # Predict and evaluate
     print("Evaluating model...")
     y_pred = pipeline.predict(X_test)
 
@@ -32,7 +29,15 @@ def train_model(data_path, model_path='cost_model.pkl'):
     mae = mean_absolute_error(y_test, y_pred)
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
+    # Calculate adjusted R²
+    n = len(y_test)  # number of samples
+    # Get the number of features after preprocessing (including one-hot encoded features)
+    X_test_transformed = pipeline.named_steps["preprocessor"].transform(X_test)
+    p = X_test_transformed.shape[1]  # number of features after preprocessing
+    adjusted_r2 = 1 - (1 - r2) * (n - 1) / (n - p - 1)
+
     print(f"R² Score: {r2:.4f}")
+    print(f"Adjusted R² Score: {adjusted_r2:.4f}")
     print(f"MAE: {mae:.2f}")
     print(f"RMSE: {rmse:.2f}")
 
@@ -41,6 +46,7 @@ def train_model(data_path, model_path='cost_model.pkl'):
     print(f"Model saved to {model_path}")
 
     return pipeline
+
 
 if __name__ == "__main__":
     # Example usage
