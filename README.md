@@ -1,10 +1,11 @@
 
 # 🏗️ Construction Cost Prediction
 
-![Construction Cost Estimation](Screenshot%2020## 🛠️ Technologies & Libraries5-07-13%20230543.png)
+
 
 This project delivers a robust solution for predicting the total construction cost of building projects. By leveraging machine learning models, specifically Random Forest and XGBoost regressors, it analyzes key features such as building type, location, area, number of floors, foundation type, roof type, and labor rates to provide accurate cost estimations. The project includes a user-friendly web interface built with Streamlit for interactive predictions.
 
+![Construction Cost Estimation](Screenshot%202025-07-13%20230543.png)
 ---
 
 ## ✨ Key Features
