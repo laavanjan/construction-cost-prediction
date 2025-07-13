@@ -1,8 +1,6 @@
-Here's a complete `README.md` for your **Construction Cost Prediction** project, designed to be clear, professional, and GitHub-friendly:
 
----
 
-```markdown
+
 # 🏗️ Construction Cost Prediction
 
 This project predicts the total construction cost of a building project based on various features such as building type, location, area, floors, quality, material index, and labor rate. The model uses machine learning algorithms like Random Forest and XGBoost for regression, and includes a simple and interactive Streamlit web app.
