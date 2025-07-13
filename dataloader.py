@@ -5,7 +5,6 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -42,50 +41,32 @@ def load_data(file_path: str) -> pd.DataFrame:
         raise
 
 
-def preprocess_data(
-    data: pd.DataFrame,
-    target_column: str = "total_cost",
-    test_size: float = 0.2,
-    random_state: int = 42,
-):
+def preprocess_data(data: pd.DataFrame):
     """
-    Preprocess the construction data for model training.
+    Preprocess the data by scaling numeric features and encoding categorical features.
 
     Args:
-        data (pd.DataFrame): Raw construction data.
-        target_column (str): Name of the target column.
-        test_size (float): Proportion of data to use for testing.
-        random_state (int): Random seed.
+        data (pd.DataFrame): The raw data.
 
     Returns:
-        tuple: X_train, X_test, y_train, y_test, preprocessor
+        tuple: Preprocessed train and test sets, and the preprocessor object.
     """
-    if target_column not in data.columns:
-        raise ValueError(f"Target column '{target_column}' not found in dataset.")
-
-    X = data.drop(columns=[target_column])
-    y = data[target_column]
-
-    numeric_features = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
-    categorical_features = X.select_dtypes(
-        include=["object", "category"]
-    ).columns.tolist()
-
-    numeric_transformer = Pipeline(steps=[("scaler", StandardScaler())])
-
-    categorical_transformer = Pipeline(
-        steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))]
-    )
+    numeric_features = data.select_dtypes(include=["int64", "float64"]).columns
+    categorical_features = data.select_dtypes(include=["object"]).columns
 
     preprocessor = ColumnTransformer(
         transformers=[
-            ("num", numeric_transformer, numeric_features),
-            ("cat", categorical_transformer, categorical_features),
+            ("num", StandardScaler(), numeric_features),
+            ("cat", OneHotEncoder(), categorical_features),
         ]
     )
 
+    processed_data = preprocessor.fit_transform(data)
+    X = processed_data[:, :-1]  # Features
+    y = processed_data[:, -1]   # Target
+
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state
+        X, y, test_size=0.2, random_state=42
     )
 
     logger.info("Preprocessing complete. Data split into training and testing sets.")
@@ -146,3 +127,7 @@ def generate_sample_data(
         logger.info(f"Synthetic data generated and saved to {output_file}")
 
     return df
+
+
+if __name__ == "__main__":
+    generate_sample_data()
